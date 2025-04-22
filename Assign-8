@@ -1,0 +1,58 @@
+
+import java.util.*;
+
+class ThreadedTreeNode {
+    int data;
+    ThreadedTreeNode left, right;
+    boolean isThreaded;
+    ThreadedTreeNode(int data) { this.data = data; this.isThreaded = false; }
+}
+
+class ThreadedBinaryTree {
+    private ThreadedTreeNode root;
+    
+    void insert(int data) { root = insertRec(root, data); }
+    private ThreadedTreeNode insertRec(ThreadedTreeNode Anode, int data) {
+        if (node == null) return new ThreadedTreeNode(data);
+        if (data < node.data) node.left = insertRec(node.left, data);
+        else node.right = insertRec(node.right, data);
+        return node;
+    }
+    
+    void createThreaded() { createThreadedRec(root, null); }
+    private ThreadedTreeNode createThreadedRec(ThreadedTreeNode node, ThreadedTreeNode prev) {
+        if (node == null) return prev;
+        prev = createThreadedRec(node.left, prev);
+        if (node.left == null && prev != null) {
+            node.left = prev;
+            node.isThreaded = true;
+        }
+        prev = node;
+        return createThreadedRec(node.right, prev);
+    }
+    
+    void inorder() {
+        ThreadedTreeNode curr = leftMost(root);
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            if (curr.isThreaded) curr = curr.left;
+            else curr = leftMost(curr.right);
+        }
+        System.out.println();
+    }
+    
+    private ThreadedTreeNode leftMost(ThreadedTreeNode node) {
+        while (node != null && node.left != null && !node.isThreaded) node = node.left;
+        return node;
+    }
+    
+    public static void main(String[] args) {
+        ThreadedBinaryTree tree = new ThreadedBinaryTree();
+        tree.insert(50); tree.insert(30); tree.insert(70);
+        tree.insert(20); tree.insert(40); tree.insert(60); tree.insert(80);
+        
+        tree.createThreaded();
+        System.out.println("Inorder traversal of threaded binary tree:");
+        tree.inorder();
+    }
+}
