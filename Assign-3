@@ -1,0 +1,89 @@
+
+import java.util.*;
+
+class TelephoneBook {
+    private Map<String, String> phoneBook;
+
+    public TelephoneBook() {
+        phoneBook = new HashMap<>();
+    }
+
+    public void addContact(String name, String phoneNumber) {
+        phoneBook.put(name, phoneNumber);
+        System.out.println("Contact added successfully!");
+    }
+
+    public void searchContact(String name) {
+        if (phoneBook.containsKey(name)) {
+            System.out.println("Name: " + name + ", Phone: " + phoneBook.get(name));
+        } else {
+            System.out.println("Contact not found!");
+        }
+    }
+
+    public void deleteContact(String name) {
+        if (phoneBook.remove(name) != null) {
+            System.out.println("Contact deleted successfully!");
+        } else {
+            System.out.println("Contact not found!");
+        }
+    }
+
+    public void displayContacts() {
+        if (phoneBook.isEmpty()) {
+            System.out.println("Telephone book is empty!");
+        } else {
+            System.out.println("Telephone Book:");
+            for (Map.Entry<String, String> entry : phoneBook.entrySet()) {
+                System.out.println(entry.getKey() + " -> " + entry.getValue());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TelephoneBook book = new TelephoneBook();
+        
+        while (true) {
+            System.out.println("\nTelephone Book Operations:");
+            System.out.println("1. Add Contact");
+            System.out.println("2. Search Contact");
+            System.out.println("3. Delete Contact");
+            System.out.println("4. Display Contacts");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Phone Number: ");
+                    String phone = scanner.nextLine();
+                    book.addContact(name, phone);
+                    break;
+                case 2:
+                    System.out.print("Enter Name to Search: ");
+                    name = scanner.nextLine();
+                    book.searchContact(name);
+                    break;
+                case 3:
+                    System.out.print("Enter Name to Delete: ");
+                    name = scanner.nextLine();
+                    book.deleteContact(name);
+                    break;
+                case 4:
+                    book.displayContacts();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+}
