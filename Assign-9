@@ -1,0 +1,47 @@
+package dsAssignments;
+
+import java.util.*;
+
+class MinHeap {
+    private PriorityQueue<Integer> heap;
+    
+    public MinHeap() { heap = new PriorityQueue<>(); }
+  
+    public void insert(int val) { heap.add(val); }
+    
+    public int extractMin() { return heap.poll(); }
+    
+    public int getMin() { return heap.peek(); }
+    
+    public boolean isEmpty() { return heap.isEmpty(); }
+}
+
+class MaxHeap {
+    private PriorityQueue<Integer> heap;
+    
+    public MaxHeap() { heap = new PriorityQueue<>(Collections.reverseOrder()); }
+    
+    public void insert(int val) { heap.add(val); }
+    
+    public int extractMax() { return heap.poll(); }
+    
+    public int getMax() { return heap.peek(); }
+    
+    public boolean isEmpty() { return heap.isEmpty(); }
+}
+
+public class HeapOperations {
+    public static void main(String[] args) {
+        MinHeap minHeap = new MinHeap();
+        MaxHeap maxHeap = new MaxHeap();
+        
+        int[] elements = {50, 30, 70, 20, 40, 60, 80};
+        for (int num : elements) {
+            minHeap.insert(num);
+            maxHeap.insert(num);
+        }
+        
+        System.out.println("Min Heap Extracted: " + minHeap.extractMin());
+        System.out.println("Max Heap Extracted: " + maxHeap.extractMax());
+    }
+}
