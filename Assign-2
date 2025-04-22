@@ -1,0 +1,65 @@
+package dsAssignments;
+
+import java.util.*;
+
+class SocietyGraph {
+    private Map<Integer, List<Integer>> adjList;
+
+    public SocietyGraph() {
+        adjList = new HashMap<>();
+    }
+
+    public void addPath(int house1, int house2) {
+        adjList.putIfAbsent(house1, new ArrayList<>());
+        adjList.putIfAbsent(house2, new ArrayList<>());
+        adjList.get(house1).add(house2);
+        adjList.get(house2).add(house1); // Assuming undirected paths
+    }
+
+    public void findAllPaths(int startHouse, int endHouse) {
+        List<Integer> path = new ArrayList<>();
+        Set<Integer> visited = new HashSet<>();
+        System.out.println("Possible delivery paths:");
+        dfs(startHouse, endHouse, visited, path);
+    }
+
+    private void dfs(int current, int destination, Set<Integer> visited, List<Integer> path) {
+        path.add(current);
+        visited.add(current);
+        
+        if (current == destination) {
+            System.out.println(path);
+        } else {
+            for (int neighbor : adjList.getOrDefault(current, new ArrayList<>())) {
+                if (!visited.contains(neighbor)) {
+                    dfs(neighbor, destination, visited, path);
+                }
+            }
+        }
+        
+        path.remove(path.size() - 1);
+        visited.remove(current);
+    }
+
+    public void displayPaths() {
+        System.out.println("Society Map:");
+        for (var entry : adjList.entrySet()) {
+            System.out.println("House " + entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        SocietyGraph society = new SocietyGraph();
+        
+        society.addPath(1, 2);
+        society.addPath(2, 3);
+        society.addPath(3, 4);
+        society.addPath(1, 5);
+        society.addPath(5, 4);
+        society.addPath(2, 6);
+        society.addPath(6, 4);
+        
+        society.displayPaths();
+        society.findAllPaths(1, 4);
+    }
+}
